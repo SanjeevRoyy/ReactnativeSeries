@@ -11,8 +11,16 @@ import { useState } from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 import { data } from "../data/todo";
+import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
 
 export default function Index() {
+  const [loaded, error] = useFonts({
+    Inter_500Medium,
+  });
+
+  if (!loaded && !error) {
+    return null;
+  }
   const [todos, setTodos] = useState(data.sort((a, b) => b.id - a.id));
   const [text, setText] = useState("");
 
@@ -102,6 +110,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 10,
     fontSize: 18,
+    fontFamily: "Inter_500Medium",
     minWidth: 0,
     color: "white",
   },
@@ -131,6 +140,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 18,
     color: "white",
+    fontFamily: "Inter_500Medium",
   },
   completedText: {
     textDecorationLine: "line-through",
