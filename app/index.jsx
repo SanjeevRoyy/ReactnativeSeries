@@ -13,11 +13,12 @@ import { data } from "../data/todo";
 import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
 import { ThemeContext } from "@/context/Themecontext";
 import Octicons from "@expo/vector-icons/Octicons";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 export default function Index() {
   const [todos, setTodos] = useState(data.sort((a, b) => b.id - a.id));
   const [text, setText] = useState("");
-  const { ColorScheme, setColorScheme, theme } = useContext(ThemeContext);
+  const { colorScheme, setColorScheme, theme } = useContext(ThemeContext);
   const [loaded, error] = useFonts({
     Inter_500Medium,
   });
@@ -26,7 +27,7 @@ export default function Index() {
     return null;
   }
 
-  const styles = CreateStyles(theme, ColorScheme);
+  const styles = CreateStyles(theme, colorScheme);
 
   const addTodo = () => {
     if (text.trim()) {
@@ -82,13 +83,13 @@ export default function Index() {
         </Pressable>
         <Pressable
           onPress={() =>
-            setColorScheme(ColorScheme === "light" ? "dark " : "light")
+            setColorScheme(colorScheme === "light" ? "dark" : "light")
           }
           style={{ marginLeft: "10px" }}
         >
-          {ColorScheme === "dark" ? (
+          {colorScheme === "dark" ? (
             <Octicons
-              name="moon"
+              name="sun"
               size={36}
               color={theme.text}
               selectable={undefined}
@@ -96,7 +97,7 @@ export default function Index() {
             />
           ) : (
             <Octicons
-              name="sun"
+              name="moon"
               size={36}
               color={theme.text}
               selectable={undefined}
@@ -105,17 +106,19 @@ export default function Index() {
           )}
         </Pressable>
       </View>
-      <FlatList
+      <Animated.FlatList
         data={todos}
         renderItem={renderItem}
         keyExtractor={(todo) => todo.id}
         contentContainerStyle={{ flexGrow: 1 }}
+        itemLayoutAnimation={LinearTransition}
+        keyboardDismissMode="on-drag"
       />
     </SafeAreaView>
   );
 }
 
-function CreateStyles(theme, ColorScheme) {
+function CreateStyles(theme, colorScheme) {
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -150,7 +153,7 @@ function CreateStyles(theme, ColorScheme) {
     },
     addButtonText: {
       fontSize: 18,
-      color: ColorScheme === "dark" ? "white" : "black",
+      color: colorScheme === "dark" ? "black" : "white",
     },
     todoItem: {
       flexDirection: "row",
