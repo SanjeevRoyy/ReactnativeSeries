@@ -14,6 +14,7 @@ import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
 import { ThemeContext } from "@/context/Themecontext";
 import Octicons from "@expo/vector-icons/Octicons";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import { StatusBar } from "react-native";
 
 export default function Index() {
   const [todos, setTodos] = useState(data.sort((a, b) => b.id - a.id));
@@ -93,7 +94,7 @@ export default function Index() {
               size={36}
               color={theme.text}
               selectable={undefined}
-              style={{ width: 36 }}
+              style={{ width: 36, marginLeft: "10px" }}
             />
           ) : (
             <Octicons
@@ -101,7 +102,7 @@ export default function Index() {
               size={36}
               color={theme.text}
               selectable={undefined}
-              style={{ width: 36 }}
+              style={{ width: 36, marginLeft: "10px" }}
             />
           )}
         </Pressable>
@@ -114,6 +115,8 @@ export default function Index() {
         itemLayoutAnimation={LinearTransition}
         keyboardDismissMode="on-drag"
       />
+
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
     </SafeAreaView>
   );
 }
